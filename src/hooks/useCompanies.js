@@ -26,14 +26,13 @@ export function useCompanies(initialFilters = {}) {
     if (filters.owner) query = query.eq('internal_owner', filters.owner)
     if (filters.search) query = query.ilike('company_name', `%${filters.search}%`)
 
-    const { data, error: err } = await query
-
-    if (err) {
-      setError(err.message)
-    } else {
-      setCompanies(data || [])
+    try {
+      const { data, error: err } = await query
+      if (err) setError(err.message)
+      else setCompanies(data || [])
+    } finally {
+      setLoading(false)
     }
-    setLoading(false)
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {

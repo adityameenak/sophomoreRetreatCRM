@@ -7,16 +7,19 @@ export function useActivities(companyId) {
 
   async function fetchActivities() {
     if (!companyId) return
-    const { data } = await supabase
-      .from('company_activities')
-      .select(`
-        *,
-        actor:profiles!company_activities_created_by_fkey(id, full_name)
-      `)
-      .eq('company_id', companyId)
-      .order('created_at', { ascending: false })
-    setActivities(data || [])
-    setLoading(false)
+    try {
+      const { data } = await supabase
+        .from('company_activities')
+        .select(`
+          *,
+          actor:profiles!company_activities_created_by_fkey(id, full_name)
+        `)
+        .eq('company_id', companyId)
+        .order('created_at', { ascending: false })
+      setActivities(data || [])
+    } finally {
+      setLoading(false)
+    }
   }
 
   useEffect(() => {
@@ -33,17 +36,20 @@ export function useRecentActivities(limit = 10) {
 
   useEffect(() => {
     async function fetch() {
-      const { data } = await supabase
-        .from('company_activities')
-        .select(`
-          *,
-          actor:profiles!company_activities_created_by_fkey(id, full_name),
-          company:companies(id, company_name)
-        `)
-        .order('created_at', { ascending: false })
-        .limit(limit)
-      setActivities(data || [])
-      setLoading(false)
+      try {
+        const { data } = await supabase
+          .from('company_activities')
+          .select(`
+            *,
+            actor:profiles!company_activities_created_by_fkey(id, full_name),
+            company:companies(id, company_name)
+          `)
+          .order('created_at', { ascending: false })
+          .limit(limit)
+        setActivities(data || [])
+      } finally {
+        setLoading(false)
+      }
     }
     fetch()
   }, [limit])

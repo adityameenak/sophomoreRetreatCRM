@@ -10,16 +10,19 @@ export function useNotes(companyId) {
 
   async function fetchNotes() {
     if (!companyId) return
-    const { data } = await supabase
-      .from('notes')
-      .select(`
-        *,
-        author:profiles!notes_author_id_fkey(id, full_name)
-      `)
-      .eq('company_id', companyId)
-      .order('created_at', { ascending: false })
-    setNotes(data || [])
-    setLoading(false)
+    try {
+      const { data } = await supabase
+        .from('notes')
+        .select(`
+          *,
+          author:profiles!notes_author_id_fkey(id, full_name)
+        `)
+        .eq('company_id', companyId)
+        .order('created_at', { ascending: false })
+      setNotes(data || [])
+    } finally {
+      setLoading(false)
+    }
   }
 
   async function addNote(content) {
