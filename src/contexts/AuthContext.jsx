@@ -3,21 +3,26 @@ import { supabase } from '../lib/supabase'
 import { MOCK_PROFILE } from '../lib/mockData'
 
 const isDemoMode = import.meta.env.VITE_DEMO_MODE === 'true'
+const PROFILE_CACHE_KEY = 'sr_crm_profile'
 
 const AuthContext = createContext({})
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
-  const [profile, setProfile] = useState(null)
+  const [profile, setProfile] = useState(() => {
+    // Pre-load cached profile so the spinner disappears immediately on repeat visits
+    try {
+      const cached = sessionStorage.getItem(PROFILE_CACHE_KEY)
+      return cached ? JSON.parse(cached) : null
+    } catch {
+      return null
+    }
+  })
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null)
-      if (session?.user) fetchProfile(session.user.id)
-      else setLoading(false)
-    })
-
+    // onAuthStateChange fires INITIAL_SESSION immediately from the localStorage cache —
+    // calling getSession() on top of this just causes a duplicate fetchProfile call.
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange(async (_event, session) => {
@@ -26,6 +31,7 @@ export function AuthProvider({ children }) {
         await fetchProfile(session.user.id)
       } else {
         setProfile(null)
+        sessionStorage.removeItem(PROFILE_CACHE_KEY)
         setLoading(false)
       }
     })
@@ -39,11 +45,27 @@ export function AuthProvider({ children }) {
       setLoading(false)
       return
     }
+
+    // Serve from cache if the cached profile belongs to this user
+    try {
+      const cached = sessionStorage.getItem(PROFILE_CACHE_KEY)
+      if (cached) {
+        const parsed = JSON.parse(cached)
+        if (parsed.id === userId) {
+          setProfile(parsed)
+          setLoading(false)
+          return
+        }
+      }
+    } catch { /* ignore parse errors */ }
+
     const { data } = await supabase
       .from('profiles')
       .select('*')
       .eq('id', userId)
       .single()
+
+    if (data) sessionStorage.setItem(PROFILE_CACHE_KEY, JSON.stringify(data))
     setProfile(data)
     setLoading(false)
   }
@@ -54,6 +76,7 @@ export function AuthProvider({ children }) {
   }
 
   async function signOut() {
+    sessionStorage.removeItem(PROFILE_CACHE_KEY)
     await supabase.auth.signOut()
   }
 
