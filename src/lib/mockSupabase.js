@@ -184,6 +184,8 @@ const mockAuth = {
 
   onAuthStateChange: (callback) => {
     _authListeners.push(callback)
+    // Fire INITIAL_SESSION immediately, mirroring the real Supabase client behaviour
+    setTimeout(() => callback('INITIAL_SESSION', _session), 0)
     return {
       data: {
         subscription: {

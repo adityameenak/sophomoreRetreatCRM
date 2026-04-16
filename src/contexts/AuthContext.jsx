@@ -21,11 +21,15 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    // Safety net: if onAuthStateChange never fires (e.g. network hung), don't stay stuck
+    const timeout = setTimeout(() => setLoading(false), 5000)
+
     // onAuthStateChange fires INITIAL_SESSION immediately from the localStorage cache —
     // calling getSession() on top of this just causes a duplicate fetchProfile call.
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange(async (_event, session) => {
+      clearTimeout(timeout)
       setUser(session?.user ?? null)
       if (session?.user) {
         await fetchProfile(session.user.id)
@@ -36,7 +40,7 @@ export function AuthProvider({ children }) {
       }
     })
 
-    return () => subscription.unsubscribe()
+    return () => { subscription.unsubscribe(); clearTimeout(timeout) }
   }, [])
 
   async function fetchProfile(userId) {
