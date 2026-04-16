@@ -29,7 +29,6 @@ export function AuthProvider({ children }) {
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange(async (_event, session) => {
-      clearTimeout(timeout)
       setUser(session?.user ?? null)
       if (session?.user) {
         await fetchProfile(session.user.id)
@@ -38,6 +37,7 @@ export function AuthProvider({ children }) {
         sessionStorage.removeItem(PROFILE_CACHE_KEY)
         setLoading(false)
       }
+      clearTimeout(timeout)
     })
 
     return () => { subscription.unsubscribe(); clearTimeout(timeout) }
@@ -63,15 +63,20 @@ export function AuthProvider({ children }) {
       }
     } catch { /* ignore parse errors */ }
 
-    const { data } = await supabase
-      .from('profiles')
-      .select('*')
-      .eq('id', userId)
-      .single()
+    try {
+      const { data } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', userId)
+        .single()
 
-    if (data) sessionStorage.setItem(PROFILE_CACHE_KEY, JSON.stringify(data))
-    setProfile(data)
-    setLoading(false)
+      if (data) sessionStorage.setItem(PROFILE_CACHE_KEY, JSON.stringify(data))
+      setProfile(data)
+    } catch {
+      // Network error or Supabase down — still unblock the app
+    } finally {
+      setLoading(false)
+    }
   }
 
   async function signIn(email, password) {
