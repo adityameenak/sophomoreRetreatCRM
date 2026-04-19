@@ -12,27 +12,67 @@ export const OUTREACH_STATUSES = [
 export const SPONSORSHIP_LEVELS = [
   { value: 'none', label: 'None Yet' },
   { value: 'in_discussion', label: 'In Discussion' },
-  { value: 'bronze', label: 'Bronze' },
-  { value: 'silver', label: 'Silver' },
-  { value: 'gold', label: 'Gold' },
-  { value: 'custom', label: 'Custom' },
+  { value: 'premier', label: 'Premier Corporate Sponsor' },
+  { value: 'platinum', label: 'Platinum Corporate Sponsor' },
+  { value: 'gold', label: 'Gold Corporate Sponsor' },
+  { value: 'silver', label: 'Silver Corporate Sponsor' },
+  { value: 'bronze', label: 'Bronze Corporate Sponsor' },
+]
+
+// Full tier details — single source of truth for benefits, pricing, and labels
+export const SPONSORSHIP_TIERS = [
+  {
+    value: 'premier',
+    label: 'Premier Corporate Sponsor',
+    range: '$3,000 and above',
+    attendance: 'Invited to attend AIChE Sophomore Retreat for 2 days',
+    benefits: ['2 presentations', 'multiple activities', '4 meals'],
+  },
+  {
+    value: 'platinum',
+    label: 'Platinum Corporate Sponsor',
+    range: '$2,250 – $2,999',
+    attendance: 'Invited to attend AIChE Sophomore Retreat for 1 full day',
+    benefits: ['1 presentation', 'multiple activities', '2 meals'],
+  },
+  {
+    value: 'gold',
+    label: 'Gold Corporate Sponsor',
+    range: '$1,750 – $2,249',
+    attendance: 'Invited to attend AIChE Sophomore Retreat for a half day',
+    benefits: ['1 presentation', '1 activity', '1 meal'],
+  },
+  {
+    value: 'silver',
+    label: 'Silver Corporate Sponsor',
+    range: '$1,000 – $1,749',
+    attendance: 'Invited to attend AIChE Sophomore Retreat for a half day and participate in activities',
+    benefits: ['multiple activities (no presentation)'],
+  },
+  {
+    value: 'bronze',
+    label: 'Bronze Corporate Sponsor',
+    range: '$999 and below',
+    attendance: null,
+    benefits: ['T-shirt and website recognition only'],
+  },
 ]
 
 export const INDUSTRIES = [
-  'Technology',
+  'Oil & Gas',
+  'Petrochemicals & Refining',
+  'Specialty Chemicals',
+  'Polymers & Materials',
+  'Semiconductors & Electronics',
+  'Pharmaceuticals & Biotech',
+  'Food & Beverage Processing',
+  'Environmental & Sustainability',
+  'Process Safety & Consulting',
+  'Nuclear Energy',
+  'Renewables & Clean Energy',
+  'Mining & Minerals',
+  'Agriculture & Fertilizers',
   'Finance / Banking',
-  'Consulting',
-  'Healthcare',
-  'Consumer Goods',
-  'Media & Entertainment',
-  'Real Estate',
-  'Legal',
-  'Energy',
-  'Retail',
-  'Manufacturing',
-  'Education',
-  'Nonprofit',
-  'Government',
   'Other',
 ]
 
@@ -93,10 +133,11 @@ export const STATUS_CONFIG = {
 export const SPONSORSHIP_CONFIG = {
   none: { label: 'None Yet', color: 'bg-gray-100 text-gray-500' },
   in_discussion: { label: 'In Discussion', color: 'bg-blue-100 text-blue-700' },
-  bronze: { label: 'Bronze', color: 'bg-orange-100 text-orange-700' },
-  silver: { label: 'Silver', color: 'bg-slate-100 text-slate-700' },
-  gold: { label: 'Gold', color: 'bg-yellow-100 text-yellow-700' },
-  custom: { label: 'Custom', color: 'bg-purple-100 text-purple-700' },
+  premier: { label: 'Premier Corporate Sponsor', color: 'bg-purple-100 text-purple-700' },
+  platinum: { label: 'Platinum Corporate Sponsor', color: 'bg-indigo-100 text-indigo-700' },
+  gold: { label: 'Gold Corporate Sponsor', color: 'bg-yellow-100 text-yellow-700' },
+  silver: { label: 'Silver Corporate Sponsor', color: 'bg-slate-100 text-slate-700' },
+  bronze: { label: 'Bronze Corporate Sponsor', color: 'bg-orange-100 text-orange-700' },
 }
 
 export const DOCUMENTS_OPTIONS = [

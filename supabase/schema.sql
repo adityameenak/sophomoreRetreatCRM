@@ -45,9 +45,9 @@ create table if not exists public.companies (
   website                     text,
   internal_owner              uuid references public.profiles(id) on delete set null,
   target_sponsorship_level    text not null default 'none'
-                                check (target_sponsorship_level in ('none','in_discussion','bronze','silver','gold','custom')),
+                                check (target_sponsorship_level in ('none','in_discussion','premier','platinum','gold','silver','bronze')),
   confirmed_sponsorship_level text not null default 'none'
-                                check (confirmed_sponsorship_level in ('none','in_discussion','bronze','silver','gold','custom')),
+                                check (confirmed_sponsorship_level in ('none','in_discussion','premier','platinum','gold','silver','bronze')),
   outreach_status             text not null default 'not_started'
                                 check (outreach_status in ('not_started','ready_to_contact','contacted','follow_up_sent','interested','confirmed','declined','on_hold')),
   first_contact_date          date,

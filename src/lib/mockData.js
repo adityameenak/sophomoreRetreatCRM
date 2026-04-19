@@ -23,8 +23,8 @@ export const MOCK_COMPANIES = [
     industry: 'Finance / Banking',
     website: 'https://goldmansachs.com',
     internal_owner: 'demo-user-1',
-    target_sponsorship_level: 'gold',
-    confirmed_sponsorship_level: 'gold',
+    target_sponsorship_level: 'premier',
+    confirmed_sponsorship_level: 'premier',
     outreach_status: 'confirmed',
     first_contact_date: daysAgo(45),
     last_contact_date: daysAgo(10),
@@ -43,7 +43,7 @@ export const MOCK_COMPANIES = [
     industry: 'Consulting',
     website: 'https://mckinsey.com',
     internal_owner: 'demo-user-2',
-    target_sponsorship_level: 'gold',
+    target_sponsorship_level: 'platinum',
     confirmed_sponsorship_level: 'none',
     outreach_status: 'interested',
     first_contact_date: daysAgo(30),
@@ -51,7 +51,7 @@ export const MOCK_COMPANIES = [
     next_follow_up_date: daysFromNow(3),
     documents_sent: ['Sponsorship Packet'],
     tags: ['consulting', 'needs-deck-update'],
-    notes_preview: 'Spoke with James — interested in Gold but needs updated packet. Decision by end of month.',
+    notes_preview: 'Spoke with James — interested in Platinum but needs updated packet. Decision by end of month.',
     created_at: new Date(now - 35 * 86400000).toISOString(),
     updated_at: new Date(now - 7 * 86400000).toISOString(),
     contacts: [{ id: 'ct-2', company_id: 'co-2', name: 'James Park', title: 'Recruiting Manager', email: 'jpark@mckinsey.com', phone: '(617) 555-0202', is_primary: true }],
@@ -200,11 +200,11 @@ export const MOCK_COMPANIES = [
 ]
 
 export const MOCK_ACTIVITIES = [
-  { id: 'act-1', company_id: 'co-1', type: 'confirmed', description: 'Sponsorship confirmed at Gold level', created_by: 'demo-user-1', created_at: new Date(now - 10 * 86400000).toISOString(), actor: { id: 'demo-user-1', full_name: 'Aditya' }, company: { id: 'co-1', company_name: 'Goldman Sachs' } },
-  { id: 'act-2', company_id: 'co-2', type: 'follow_up_logged', description: 'Follow-up call — interested in Gold, needs updated packet', created_by: 'demo-user-2', created_at: new Date(now - 7 * 86400000).toISOString(), actor: { id: 'demo-user-2', full_name: 'Shepard' }, company: { id: 'co-2', company_name: 'McKinsey & Company' } },
+  { id: 'act-1', company_id: 'co-1', type: 'confirmed', description: 'Sponsorship confirmed at Premier Corporate Sponsor level', created_by: 'demo-user-1', created_at: new Date(now - 10 * 86400000).toISOString(), actor: { id: 'demo-user-1', full_name: 'Aditya' }, company: { id: 'co-1', company_name: 'Goldman Sachs' } },
+  { id: 'act-2', company_id: 'co-2', type: 'follow_up_logged', description: 'Follow-up call — interested in Platinum, needs updated packet', created_by: 'demo-user-2', created_at: new Date(now - 7 * 86400000).toISOString(), actor: { id: 'demo-user-2', full_name: 'Shepard' }, company: { id: 'co-2', company_name: 'McKinsey & Company' } },
   { id: 'act-3', company_id: 'co-3', type: 'outreach_sent', description: 'Follow-up email sent after no response', created_by: 'demo-user-1', created_at: new Date(now - 8 * 86400000).toISOString(), actor: { id: 'demo-user-1', full_name: 'Aditya' }, company: { id: 'co-3', company_name: 'Google' } },
   { id: 'act-4', company_id: 'co-4', type: 'status_changed', description: 'Status changed from "ready_to_contact" to "contacted"', created_by: 'demo-user-2', created_at: new Date(now - 14 * 86400000).toISOString(), actor: { id: 'demo-user-2', full_name: 'Shepard' }, company: { id: 'co-4', company_name: 'Blackstone' } },
-  { id: 'act-5', company_id: 'co-5', type: 'confirmed', description: 'Sponsorship confirmed at Bronze level', created_by: 'demo-user-1', created_at: new Date(now - 20 * 86400000).toISOString(), actor: { id: 'demo-user-1', full_name: 'Aditya' }, company: { id: 'co-5', company_name: 'Deloitte' } },
+  { id: 'act-5', company_id: 'co-5', type: 'confirmed', description: 'Sponsorship confirmed at Bronze Corporate Sponsor level', created_by: 'demo-user-1', created_at: new Date(now - 20 * 86400000).toISOString(), actor: { id: 'demo-user-1', full_name: 'Aditya' }, company: { id: 'co-5', company_name: 'Deloitte' } },
   { id: 'act-6', company_id: 'co-7', type: 'created', description: 'Bain & Company was added to the CRM', created_by: 'demo-user-1', created_at: new Date(now - 5 * 86400000).toISOString(), actor: { id: 'demo-user-1', full_name: 'Aditya' }, company: { id: 'co-7', company_name: 'Bain & Company' } },
   { id: 'act-7', company_id: 'co-9', type: 'status_changed', description: 'Status changed to "on_hold" — pending committee review', created_by: 'demo-user-2', created_at: new Date(now - 18 * 86400000).toISOString(), actor: { id: 'demo-user-2', full_name: 'Shepard' }, company: { id: 'co-9', company_name: 'JPMorgan Chase' } },
   { id: 'act-8', company_id: 'co-2', type: 'note_added', description: 'Note added', created_by: 'demo-user-2', created_at: new Date(now - 9 * 86400000).toISOString(), actor: { id: 'demo-user-2', full_name: 'Shepard' }, company: { id: 'co-2', company_name: 'McKinsey & Company' } },
@@ -216,7 +216,7 @@ export const MOCK_NOTES = {
     { id: 'n-2', company_id: 'co-1', author_id: 'demo-user-1', content: 'Sent sponsorship packet + budget breakdown. They want logo placement on all printed materials and a 10-min speaking slot during the Friday dinner.', created_at: new Date(now - 30 * 86400000).toISOString(), author: { id: 'demo-user-1', full_name: 'Aditya' } },
   ],
   'co-2': [
-    { id: 'n-3', company_id: 'co-2', author_id: 'demo-user-2', content: 'James said their recruiting budget is tight but he\'s pushing for it internally. Decision by end of month. Updated packet needed — they want to see the retreat agenda and past attendance numbers.', created_at: new Date(now - 7 * 86400000).toISOString(), author: { id: 'demo-user-2', full_name: 'Shepard' } },
+    { id: 'n-3', company_id: 'co-2', author_id: 'demo-user-2', content: 'James said their recruiting budget is tight but he\'s pushing for Platinum internally. Decision by end of month. Updated packet needed — they want to see the retreat agenda and past attendance numbers.', created_at: new Date(now - 7 * 86400000).toISOString(), author: { id: 'demo-user-2', full_name: 'Shepard' } },
   ],
   'co-9': [
     { id: 'n-4', company_id: 'co-9', author_id: 'demo-user-2', content: 'Dana said it goes through a "community investment committee" that meets monthly. We missed the last meeting window. Follow up after the 15th.', created_at: new Date(now - 18 * 86400000).toISOString(), author: { id: 'demo-user-2', full_name: 'Shepard' } },

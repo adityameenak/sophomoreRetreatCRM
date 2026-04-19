@@ -118,13 +118,13 @@ function NoteCard({ note, onDelete, currentUserId }) {
 }
 
 // --- Email draft modal ---
-function EmailDraftModal({ open, onClose, company, contacts, senderName }) {
+function EmailDraftModal({ open, onClose, company, contacts }) {
   const [selectedTemplateId, setSelectedTemplateId] = useState(EMAIL_TEMPLATES[0].id)
   const [copied, setCopied] = useState(false)
 
   const primaryContact = contacts?.find((c) => c.is_primary) || contacts?.[0]
   const template = EMAIL_TEMPLATES.find((t) => t.id === selectedTemplateId)
-  const draft = template ? generateEmailDraft(template, company, primaryContact, senderName) : null
+  const draft = template ? generateEmailDraft(template, company, primaryContact) : null
 
   async function handleCopy() {
     if (!draft) return
@@ -189,7 +189,7 @@ function EmailDraftModal({ open, onClose, company, contacts, senderName }) {
             </div>
 
             <p className="text-xs text-gray-400">
-              Tip: Copy the email and paste it into your email client. Placeholders like [University Name] should be filled in manually.
+              Tip: Copy the email and paste it into your email client. Fill in [Fill Name Here], [Fill Role Here], and [Fill Phone Number Here] before sending.
             </p>
           </>
         )}
@@ -624,7 +624,6 @@ export default function CompanyDetail() {
         onClose={() => setEmailModalOpen(false)}
         company={company}
         contacts={contacts}
-        senderName={senderName}
       />
 
       <ContactModal
